@@ -1,26 +1,24 @@
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useState } from "react";
 
 const SimpleInput: React.FC = () => {
   const [enteredName, setName] = useState<{ value: string }>({ value: "" });
-  const [enteredNameIsTouched, setEnteredNameIsTouched] = useState(false);
-  const [formIsValid, setFormIsValid] = useState(false);
+  const [enteredNameIsTouched, setEnteredNameIsTouched] =
+    useState<boolean>(false);
 
-  const enteredNameIsValid = enteredName.value.trim() !== "";
-  const nameInputIsInvalid = !enteredNameIsValid && enteredNameIsTouched;
+  const enteredNameIsValid: boolean = enteredName.value.trim() !== "";
+  const nameInputIsInvalid: boolean =
+    !enteredNameIsValid && enteredNameIsTouched;
+  let formIsValid: boolean = false;
 
-  useEffect(() => {
-    if (enteredNameIsValid) {
-      setFormIsValid(true);
-    } else {
-      setFormIsValid(false);
-    }
-  }, [enteredNameIsValid]);
+  if (enteredNameIsValid) {
+    formIsValid = true;
+  }
 
   const inputChangeHandler = (e: FormEvent) => {
     setName({ value: (e.target as HTMLInputElement).value });
   };
 
-  const nameInputBlurHandler = (e: FormEvent) => {
+  const nameInputBlurHandler = (): void => {
     setEnteredNameIsTouched(true);
   };
 
@@ -33,7 +31,7 @@ const SimpleInput: React.FC = () => {
     setEnteredNameIsTouched(false);
   };
 
-  const nameInputClass = nameInputIsInvalid
+  const nameInputClass: string = nameInputIsInvalid
     ? "form-control invalid"
     : "form-control";
 
@@ -54,7 +52,9 @@ const SimpleInput: React.FC = () => {
         </p>
       </div>
       <div className="form-actions">
-        <button type="submit" disabled={!formIsValid}>Submit</button>
+        <button type="submit" disabled={!formIsValid}>
+          Submit
+        </button>
       </div>
     </form>
   );
