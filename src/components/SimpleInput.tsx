@@ -1,37 +1,33 @@
 import { FormEvent, useState } from "react";
+import { useFormValidation } from "../hooks/useFormValidation";
 
 const SimpleInput: React.FC = () => {
-  const [enteredName, setName] = useState<{ value: string }>({ value: "" });
-  const [enteredNameIsTouched, setEnteredNameIsTouched] =
-    useState<boolean>(false);
+  const {
+    value: enteredName,
+    isValid: enteredNameValid,
+    error: nameInputHasError,
+    valueChangeHandler: nameChangeHandler,
+    valueBlurHandler: nameBlurHandler,
+    resetFunction: resetHandler,
+  } = useFormValidation((value) => value.trim() !== "");
 
-  const enteredNameIsValid: boolean = enteredName.value.trim() !== "";
-  const nameInputIsInvalid: boolean =
-    !enteredNameIsValid && enteredNameIsTouched;
+  const enteredNameIsValid: boolean = enteredName.trim() !== "";
+
   let formIsValid: boolean = false;
 
   if (enteredNameIsValid) {
     formIsValid = true;
   }
 
-  const inputChangeHandler = (e: FormEvent) => {
-    setName({ value: (e.target as HTMLInputElement).value });
-  };
-
-  const nameInputBlurHandler = (): void => {
-    setEnteredNameIsTouched(true);
-  };
-
   const formSubmitHandler = (e: FormEvent) => {
     e.preventDefault();
     if (enteredNameIsValid) {
       console.log("VALID");
-      setName({ value: "" });
+      resetHandler();
     } else return;
-    setEnteredNameIsTouched(false);
   };
 
-  const nameInputClass: string = nameInputIsInvalid
+  const nameInputClass: string = nameInputHasError
     ? "form-control invalid"
     : "form-control";
 
@@ -42,13 +38,13 @@ const SimpleInput: React.FC = () => {
           type="text"
           id="name"
           placeholder="Your Name"
-          onChange={inputChangeHandler}
-          onBlur={nameInputBlurHandler}
-          value={enteredName.value}
+          onChange={nameChangeHandler}
+          onBlur={nameBlurHandler}
+          value={enteredName}
           className={nameInputClass}
         />
         <p className="error-text">
-          {nameInputIsInvalid && "Name must not be empty"}
+          {nameInputHasError && "Name must not be empty"}
         </p>
       </div>
       <div className="form-actions">
