@@ -12,11 +12,20 @@ form {
   margin-left: -30px;
 }
 
+.form-control {
+  border: 2px solid black;
+}
+
+.invalid {
+  border: 1px solid rgb(255, 66, 66);
+}
+
 input:last-of-type {
   margin-bottom: 25px;
 }
 
 .error-text {
+  margin-bottom: 25px;
   color: rgb(255, 66, 66);
 }
 
