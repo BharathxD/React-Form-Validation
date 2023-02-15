@@ -8,28 +8,37 @@ const SimpleInput: React.FC = () => {
     error: nameInputHasError,
     valueChangeHandler: nameChangeHandler,
     valueBlurHandler: nameBlurHandler,
-    resetFunction: resetHandler,
+    resetFunction: resetNameHandler,
   } = useFormValidation((value) => value.trim() !== "");
 
-  const enteredNameIsValid: boolean = enteredName.trim() !== "";
+  const {
+    value: enteredEmail,
+    isValid: enteredEmailValid,
+    error: emailInputHasError,
+    valueChangeHandler: emailChangeHandler,
+    valueBlurHandler: emailBlurHandler,
+    resetFunction: resetEmailHandler,
+  } = useFormValidation((value) => value.trim().includes("@"));
 
   let formIsValid: boolean = false;
 
-  if (enteredNameIsValid) {
+  if (enteredNameValid && enteredEmailValid) {
     formIsValid = true;
   }
 
   const formSubmitHandler = (e: FormEvent) => {
     e.preventDefault();
-    if (enteredNameIsValid) {
+    if (enteredNameValid && enteredEmailValid) {
       console.log("VALID");
-      resetHandler();
+      resetNameHandler();
+      resetEmailHandler();
     } else return;
   };
 
-  const nameInputClass: string = nameInputHasError
-    ? "form-control invalid"
-    : "form-control";
+  const nameInputClass: string =
+    nameInputHasError && emailInputHasError
+      ? "form-control invalid"
+      : "form-control";
 
   return (
     <form onSubmit={formSubmitHandler}>
@@ -45,6 +54,20 @@ const SimpleInput: React.FC = () => {
         />
         <p className="error-text">
           {nameInputHasError && "Name must not be empty"}
+        </p>
+      </div>
+      <div>
+        <input
+          type="text"
+          id="email"
+          placeholder="Email"
+          onChange={emailChangeHandler}
+          onBlur={emailBlurHandler}
+          value={enteredEmail}
+          className={nameInputClass}
+        />
+        <p className="error-text">
+          {emailInputHasError && "Email enter a valid email"}
         </p>
       </div>
       <div className="form-actions">
