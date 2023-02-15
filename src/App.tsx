@@ -1,12 +1,12 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import "./App.css";
 import SimpleInput from "./components/SimpleInput";
 
 function App() {
   return (
-    <div className="app">
+    <React.Fragment>
       <SimpleInput />
-    </div>
+    </React.Fragment>
   );
 }
 
