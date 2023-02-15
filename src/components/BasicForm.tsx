@@ -38,10 +38,13 @@ const BasicForm: React.FC = () => {
     if (formIsValid) {
       console.log("VALID");
     }
-  }
+    resetEmailInput();
+    resetFirstNameInput();
+    resetLastNameInput();
+  };
 
   return (
-    <form>
+    <form onSubmit={formSubmitHander}>
       <div className="control-group">
         <div>
           <input
@@ -52,7 +55,11 @@ const BasicForm: React.FC = () => {
             onBlur={firstNameBlurHandler}
             value={enteredFirstName}
           />
-          <p className="error-text">{!firstNameIsValid && firstNameHasError && "First Name must not be empty"}</p> 
+          <p className="error-text">
+            {!firstNameIsValid &&
+              firstNameHasError &&
+              "First Name must not be empty"}
+          </p>
         </div>
         <div>
           <input
@@ -63,7 +70,11 @@ const BasicForm: React.FC = () => {
             onBlur={lastNameBlurHandler}
             value={enteredLastName}
           />
-          <p className="error-text">{!lastNameIsValid && lastNameHasError && "Last Name must not be empty"}</p>
+          <p className="error-text">
+            {!lastNameIsValid &&
+              lastNameHasError &&
+              "Last Name must not be empty"}
+          </p>
         </div>
       </div>
       <div>
@@ -75,10 +86,14 @@ const BasicForm: React.FC = () => {
           onBlur={emailBlurHandler}
           value={enteredEmail}
         />
-        <p className="error-text">{!emailIsValid && emailHasError && "Enter a valid email"}</p> 
+        <p className="error-text">
+          {!emailIsValid && emailHasError && "Enter a valid email"}
+        </p>
       </div>
       <div>
-        <button type="submit" disabled={!formIsValid}>Submit</button>
+        <button type="submit" disabled={!formIsValid}>
+          Submit
+        </button>
       </div>
     </form>
   );
